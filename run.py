@@ -125,6 +125,21 @@ def msg_clear(groupID):
     reportData[groupID].clear()
     tmp_str = '資料已重置!'
     return tmp_str
+def auto_report(userMsg, groupID):
+    MsgType =['時間：','學號：','姓名：','電話：','現在位置：','現在在幹嘛：','跟誰：','緊急聯絡人：','身體狀況：','收假方式：','預計幾點抵達：']
+    
+    try:
+        if !len(userMsg.split('\n') == 11):
+            raise Exception
+        for i in range(11):
+            MsgType[i] += userMsg.split('\n')[i]
+            MsgType[i] += '\n'
+    except Exception:
+        return '資料格式錯誤'
+    rptMsg='自訂回報\n'
+    for i in range((len(msgType)):
+        rptMsg+= msgType[i]
+    return msg_manual_report(rptMsg, groupID)
     
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
@@ -150,7 +165,7 @@ def handle_message(event):
         LineMessage = ''
         receivedmsg = event.message.text
 
-        if '姓名' in receivedmsg and '學號' in receivedmsg and '手機' in receivedmsg:
+        if  '時間' in receivedmsg and '姓名' in receivedmsg and '學號' in receivedmsg and '手機' in receivedmsg:
             LineMessage = msg_report(receivedmsg,groupID)
         elif '自訂回報' in receivedmsg[:4]:
             LineMessage = msg_manual_report(receivedmsg,groupID,userName)
@@ -170,6 +185,8 @@ def handle_message(event):
             message = TextSendMessage(text=LineMessage)
             line_bot_api.reply_message(event.reply_token, message)
 
+
+            
 if __name__ == "__main__":
     global reportData
     reportData = {}
