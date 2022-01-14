@@ -139,7 +139,7 @@ def auto_report(userMsg, groupID):
     rptMsg='自訂回報\n'
     for i in range((len(msgType)):
         rptMsg+= msgType[i]
-    return msg_manual_report(rptMsg, groupID)
+    return msg_report(rptMsg, groupID)
     
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
@@ -177,7 +177,9 @@ def handle_message(event):
             LineMessage = msg_format()
         elif '輸出回報' in receivedmsg and len(receivedmsg)==4:
             LineMessage = msg_output(groupID)
-        # for Error Debug, Empty all data -Garrett, 2021.01.27        
+        elif '自動回報' in receivedmsg:
+            LineMessage = auto_report(receivedmsg,groupID)
+                   # for Error Debug, Empty all data -Garrett, 2021.01.27        
         elif '清空' in receivedmsg and len(receivedmsg)==2:
             LineMessage = msg_clear(groupID)
             
